@@ -15,7 +15,7 @@ app.use(express.json());
 
 // Enable CORS for all routes
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.header('Access-Control-Allow-Origin', 'https://militaryassestmanagement.netlify.app');
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, x-auth-token');
   res.header('Access-Control-Allow-Credentials', 'true');
