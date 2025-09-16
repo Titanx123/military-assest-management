@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
-import { authAPI, basesAPI } from 'utils/api';
+import { authAPI, basesAPI } from '../../utils/api';
 import {
   Container,
   TextField,
