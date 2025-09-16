@@ -9,28 +9,34 @@ const { verifyToken } = require('./middleware/auth');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
-app.use(cors({
-  origin: 'http://localhost:3000',
-  credentials: true,
-  allowedHeaders: ['Content-Type', 'Authorization', 'x-auth-token']
-}));
-app.use(express.json());
 
-// Add headers before the routes are defined
-app.use(function (req, res, next) {
-  // Website you wish to allow to connect
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-  // Request methods you wish to allow
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-  // Request headers you wish to allow
-  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type,Authorization,x-auth-token');
-  // Set to true if you need the website to include cookies in the requests sent
-  // to the API (e.g. in case you use sessions)
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  // Pass to next layer of middleware
-  next();
-});
+// CORS Configuration
+const allowedOrigins = process.env.NODE_ENV === 'production'
+  ? ['https://your-frontend-domain.com'] // Replace with your actual frontend domain
+  : ['http://localhost:3000']
+
+  //////dfsdkjhfksdhfjkdsjkfh
+// Middleware
+app.use(express.json());
+app.use(cors({
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-auth-token'],
+  exposedHeaders: ['x-auth-token']
+}));
+
+// Handle preflight requests
+app.options('*', cors());
 
 // Database connection
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/military-assets', {
@@ -56,6 +62,6 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something broke!');
 });
 
-app.listen(PORT, () => {
+app.listen(PORT,'0.0.0.0', () => {
   console.log(`Server is running on port ${PORT}`);
 });
