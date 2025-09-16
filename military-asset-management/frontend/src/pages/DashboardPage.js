@@ -8,17 +8,14 @@ import {
   Box, 
   Button, 
   Paper, 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableContainer, 
-  TableHead, 
-  TableRow,
+  Grid,
+  Card,
+  CardContent,
+  CardActions,
+  Divider,
+  Chip,
   CircularProgress,
-  IconButton,
-  Tooltip,
-  Alert,
-  Snackbar
+  Alert
 } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import AddIcon from '@mui/icons-material/Add';
@@ -32,7 +29,7 @@ const DashboardPage = () => {
   const [error, setError] = useState('');
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
-  const { user, logout, hasRole } = useAuth();
+  const { logout } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {

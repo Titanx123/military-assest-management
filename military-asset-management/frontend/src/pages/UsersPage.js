@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { authAPI } from '../utils/api';
 import {
@@ -27,7 +26,6 @@ import { Add as AddIcon, Delete as DeleteIcon, ArrowBack as ArrowBackIcon } from
 import UserForm from '../components/users/UserForm';
 
 const UsersPage = () => {
-  const navigate = useNavigate();
   const { hasRole } = useAuth();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
